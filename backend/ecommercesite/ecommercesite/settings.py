@@ -78,13 +78,12 @@ DATABASES = {
      'default': {
          'ENGINE': 'django.db.backends.mysql',
          'NAME': 'ecommercedb',
-         'USER': 'Kendy-nkosi', # Change this to your username
+         'USER': 'root', # Change this to your username
          'PASSWORD': '18063kendy', # Change this to your mysql password
          'HOST': 'localhost',
          'PORT': '3306',
      }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
