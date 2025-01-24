@@ -1,7 +1,8 @@
 // frontend/src/context/CartContext.js
 import React, { createContext, useState } from 'react';
 
-export const CartContext = createContext();
+const CartContext = React.createContext(null);
+export { CartContext };
 
 export const CartProvider = ({ children }) => {
     const [cart, setCart] = useState([]);

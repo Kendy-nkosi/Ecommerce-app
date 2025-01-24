@@ -1,27 +1,59 @@
-import React from 'react';
-import Header from './components/Header'
-import { Routes, Route } from 'react-router-dom'; // Import the Routes, and Route
-import ProductList from './pages/ProductList'
-import Auth from "./components/Auth";
-import Register from "./components/Register";
+import React, { useState, useEffect } from 'react';
+import { Routes, Route, useNavigate } from 'react-router-dom';
+import  CartContext  from './context/CartContext';
+import Header from './components/Header';
+import ProductsList from "./pages/ProductList";
+import  Login from "./components/Login";
+import Signup from './components/Signup';
 import Home from "./pages/Home";
-import Cart from "./components/Cart";
+import About from "./components/About";
+import Footer from "./components/Footer";
+import Cart from './components/Cart'; // Import Cart
 
 
 function App() {
-  return (
-     <div>
-         <Header/>
-        <main>
-            <Routes> {/* new routes here */}
-                 <Route path="/" element={<Home/>} />
-                 <Route path="/products" element={<ProductList/>} />
-                <Route path="/login" element={<Auth />} />
-                 <Route path="/register" element={<Register />} />
-                 <Route path="/cart" element={<Cart />} />
-           </Routes>
-        </main>
-     </div>
-   );
- }
+   const [cartItems, setCartItems] = useState([]); // Example cart state
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+    useEffect(() => { // useEffect is now imported
+        const storedLoggedIn = localStorage.getItem('isLoggedIn');
+        if (storedLoggedIn === 'true') {
+            setIsLoggedIn(true);
+        } else {
+            setIsLoggedIn(false);
+        }
+    }, []);
+
+    const RequireAuth = ({ children }) => {
+        const navigate = useNavigate();
+        if (!isLoggedIn) {
+            navigate('/login');
+            return null;
+        }
+        return children;
+    }
+
+    return (
+        <div className="app-container">
+            <Header />
+            <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/signup" element={<Signup />} />
+                <Route
+                    path="/about"
+                    element={
+                        <RequireAuth>
+                            <About />
+                        </RequireAuth>
+                    }
+                />
+                <Route path="/productslist" element={<ProductsList />} />
+            </Routes>
+            <Footer />
+            <Cart />
+        </div>
+    );
+}
+
 export default App;
