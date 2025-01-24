@@ -72,9 +72,7 @@ function Home() {
         </div>
 
       </main>
-        <footer className="footer">
-           <p>© {new Date().getFullYear()} Lady Kay's Stationery. All rights reserved.</p>
-        </footer>
+
     </div>
   );
 }
