@@ -68,7 +68,7 @@ function Home() {
 
         <div className="cta-section">
           <h2>Ready to Elevate Your Writing Experience?</h2>
-          <Link to="/products" className="cta-button">Browse Our Collection</Link>
+          <Link to="/productslist" className="cta-button">Browse Our Collection</Link>
         </div>
 
       </main>
