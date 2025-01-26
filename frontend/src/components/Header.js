@@ -24,7 +24,7 @@ function Header() {
                  <nav className="header-nav">
                      <Link to="/" className="header-nav-link">Home</Link>
                         <Link to="/about" className="header-nav-link">About</Link>
-                          <Link to="/products" className="header-nav-link">Products</Link>
+                          <Link to="/productslist" className="header-nav-link">Products</Link>
                        <div className="dropdown" onMouseEnter={toggleDropdown} onMouseLeave={toggleDropdown}>
                           <button className="header-nav-link dropbtn">My Account <FaUser/></button>
                               {isDropdownOpen && (

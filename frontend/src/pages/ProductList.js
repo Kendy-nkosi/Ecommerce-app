@@ -4,7 +4,19 @@ import { CartContext } from '../context/CartContext';
 import Pen  from '../images/pen2.webp';
  import colors from '../images/colors.webp';
 import oneone from '../images/112.webp';
-import pp from '../images/pp.webp'
+import pp from '../images/pp.webp';
+import pritt from '../images/pritt.webp';
+import crayons from '../images/crayons.webp';
+import stickynotes from '../images/stickynotes.webp';
+import casep from '../images/casep.jpeg';
+import green from '../images/green.jpeg';
+import calculator  from '../images/calculator.jpg';
+import bb from '../images/bb.jpeg';
+import sets from '../images/sets.jpeg';
+import paint from '../images/paint.jpeg';
+import pink  from  '../images/pink .jpeg';
+import blue from '../images/blue.jpeg';
+
 
 
 function ProductList() {
@@ -12,6 +24,7 @@ function ProductList() {
 
 
     const products = [
+     
         {
             id: 1,
             name: "30pcs Mini Pencil Sharpeners ",
@@ -35,10 +48,10 @@ function ProductList() {
         },
         {
             id: 4,
-           name: "Leather Journal",
-            description: "A durable, stylish journal with a leather cover.",
-           price: 29.99,
-            image: "https://m.media-amazon.com/images/I/81z1q1gI6mL._AC_UF894,1000_QL80_.jpg",
+           name: "Pritt Glue Stick Large 43gr ",
+            description: "Value Pack of 3.",
+           price: 150.00,
+            image: pritt,
         },
          {
            id: 5,
@@ -51,9 +64,79 @@ function ProductList() {
               id: 6,
             name: "Art Eraser",
             description: "A high quality eraser that is good for all your needs",
-            price: 8.00,
+            price: 49.99,
             image: oneone,
           },
+          {
+            id: 6,
+            name:"Monami Wax Crayons Retractable Assorted (Pack 12)",
+            description:"",
+            price: 119.99,
+            image: crayons,
+               },
+               {
+                id: 7,
+                name:"Colorful Sticky Notes (Post-its)",
+                description:"The edges of the sticky notes are crisp, and the stack is slightly staggered showing each of the edges of the sticky notes.",
+                price: 99.99,
+                image: stickynotes,
+                   },
+                 {
+                id:8,
+                name:"Large Capacity Pencil Case",
+                description:"Gift Pen Bag Pen Box Pencil Cases Storage Student School Office Supplies",
+                price: 80.00,
+                image: casep,
+                 },  
+                {
+               id:9,
+               name:"Layers A4 File Folder ",
+               description:"Storage Bag Test Paper Desktop Tool School Stationery Office Supplies",
+               price: 129.99,
+               image: green,
+                },
+                {
+                 id:10,
+                 name:"Scientific Calculator",
+                 description:"Data handling and Regression analysis Random Integers What's in the box 1 x Casio FX-82ZA Plus II Scientific Calculator Black & Product Manual",
+                 price:319.99,
+                 image: calculator,
+                },
+            {
+            id:10,
+            name:"Treeline A3 Upright Lever Arch File Black ",
+            description:"Each",
+            price:100.00,
+            image:bb,
+            },
+            {
+           id:11,
+           name:"CROXLEY CREATE Maths Set",
+           description:"11 Piece",
+           price:69.00,
+           image:sets,    
+            },
+            {
+                id:12,
+                name:"CROXLEY CREATE Beginners Paintbrush",
+                description:"4 Piece Set",
+                price:250.00,
+                image:paint,
+                },
+         {
+           id:13,
+           name :" 2 Hole Punch",
+           description:"Rexel V230 Pink ",
+           price:120.00,
+           image:pink,
+         }, 
+         {
+           id:14,
+           name:"STAPLER MINI BLUE",
+           description:"",
+           price:150.00,
+           image:blue,
+         },
     ];
     return (
         <div className="featured-products">
