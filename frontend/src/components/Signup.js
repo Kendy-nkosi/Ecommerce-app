@@ -7,73 +7,75 @@ function Signup() {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [error, setError] = useState('');
     const navigate = useNavigate();
-     const location = useLocation();
+    const location = useLocation();
 
-  const handleSubmit = async (e) => {
-      e.preventDefault();
-       if (!email || !password || !confirmPassword) {
-          setError('Please fill in all fields.');
-           return;
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        if (!email || !password || !confirmPassword) {
+            setError('Please fill in all fields.');
+            return;
         }
-       if (password !== confirmPassword) {
-           setError('Passwords do not match.');
-           return;
-     }
-     try {
-            const response = await fetch('/api/register', {
+        if (password !== confirmPassword) {
+            setError('Passwords do not match.');
+            return;
+        }
+        try {
+            const response = await fetch('http://localhost:8000/api/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-               },
-               body: JSON.stringify({ username:email, password }),
-             });
-
-             const data = await response.json();
-             if(response.ok){
-                   localStorage.setItem('isLoggedIn', 'true');
-                const from = location?.state?.from?.pathname || '/productslist';
-                navigate(from);
-           }
-           setError(data.message)
-       } catch(e){
-            setError("Error in signup")
-         }
-};
+                },
+                body: JSON.stringify({
+                    email,
+                    password,
+                })
+            });
+            
+            if (response.ok) {
+                navigate('/login');
+            } else {
+                const data = await response.json();
+                setError(data.message);
+            }
+        } catch(e) {
+            setError("Error in signup");
+        }
+    };
 
     return (
-         <div className="auth-container">
-             <h2>Sign Up</h2>
-           <form onSubmit={handleSubmit}>
-              {error && <p className="auth-error">{error}</p>}
-              <div className="auth-input">
-                   <label>Email</label>
+        <div className="auth-container">
+            <h2>Sign Up</h2>
+            <form onSubmit={handleSubmit}>
+                {error && <p className="auth-error">{error}</p>}
+                <div className="auth-input">
+                    <label>Email</label>
                     <input
-                      type="email"
-                      value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                     />
-                 </div>
-                  <div className="auth-input">
-                      <label>Password</label>
-                       <input
-                         type="password"
-                          value={password}
+                </div>
+                <div className="auth-input">
+                    <label>Password</label>
+                    <input
+                        type="password"
+                        value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                     />
-                 </div>
-               <div className="auth-input">
+                    />
+                </div>
+                <div className="auth-input">
                     <label>Confirm Password</label>
                     <input
-                       type="password"
-                       value={confirmPassword}
+                        type="password"
+                        value={confirmPassword}
                         onChange={(e) => setConfirmPassword(e.target.value)}
                     />
                 </div>
-               <button type="submit" className="auth-button">Sign Up</button>
-         </form>
+                <button type="submit" className="auth-button">Sign Up</button>
+            </form>
             <p className="signup-text">Already have an account? <a href="/login">Login</a></p>
-      </div>
-);
+        </div>
+    );
 }
 
 export default Signup;

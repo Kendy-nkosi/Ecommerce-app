@@ -16,8 +16,14 @@ import sets from '../images/sets.jpeg';
 import paint from '../images/paint.jpeg';
 import pink  from  '../images/pink .jpeg';
 import blue from '../images/blue.jpeg';
-
-
+import addones from '../images/addones.jpeg';
+import bks from '../images/bks.jpeg';
+import bksone from '../images/bksone.jpeg';
+import penth from '../images/penth.jpeg';
+import usb from '../images/usb.jpeg';
+import mult from '../images/mult.jpeg';
+import books from '../images/books.jpg';
+import sheet from '../images/sheets.jpeg';
 
 function ProductList() {
     const { addToCart } = useContext(CartContext);
@@ -137,6 +143,62 @@ function ProductList() {
            price:150.00,
            image:blue,
          },
+         {
+            id:15,
+            name:"Lanyards with Clips for ID Badges & Keys",
+            description:"Durable Neck Straps for Teachers, Students, Men, Women, Badge Holders for Cruise, Keys, Wallet, Phone, USB, Keychain, Cruise Lanyards ",
+            price:78.00,
+            image:addones,
+          },
+        {
+            id:16,
+            name:"Vintage A5 Leatherbound Notebook with Personalized Soft Cover and Bookmark ",
+            description:"Perfect for Business Meetings and University Life",
+            price :110.00,
+            image:bks,
+        } ,
+        {
+            id:17,
+            name:"1pc (A5)80 Pages Notebook, Notepad, Student Office Notebook, School Supplies",
+            description:"",
+            price:45.00,
+            image:bksone,
+        },
+        {
+            id:18,
+            name:"Glitter Color Pen",
+            description:"Color Set Pastel Color Simple Danish Creative Colorful Gradient",
+            price:35.50,
+            image:penth,
+        },
+{
+        id:19,
+        name:"4GB & 8GB USB Flash Drives",
+        description:" High-Speed USB 2.0 Memory Sticks, 360° Swivel Design, Metal Portable External Storage for Smartphones, Tablets, PCs",
+        price:250.00,
+        image:usb,
+},
+{
+    id :20,
+    name:"Multiplication Flash Card Set with Self-Check & Scoring",
+    description:" Ideal for Classroom & Home Learning, Perfect Gift for Students",
+    price:65.00,
+    image:mult,
+},
+{
+    id:21,
+    name:"3 Quire A4",
+    description:"Soft Cover, Plain Paper, Ideal for Travel, Office, and School Notes",
+    price :50.00,
+    image:books,
+},
+{
+    id:22,
+    name:"Mondi A4 Office Copy Paper 500 Sheets",
+    description:"high-quality multifunctional office paper that/'s perfect for use in photocopiers, laser and inkjet printers, as well as fax machines.",
+    price:179.99,
+    image:sheet,
+},
     ];
     return (
         <div className="featured-products">
@@ -147,7 +209,7 @@ function ProductList() {
                         <img src={product.image} alt={product.name} className='product-image'/>
                         <h3>{product.name}</h3>
                        <p>{product.description}</p>
-                         <p>Price: ${product.price}</p>
+                         <p>Price: R{product.price}</p>
                            <button onClick={() => addToCart(product)} className="add-to-cart">Add to Cart</button>
                     </div>
                 ))}

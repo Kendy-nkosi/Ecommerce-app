@@ -8,27 +8,30 @@ function Auth() {
  const navigate = useNavigate();
   const location = useLocation();
 
- const handleLogin = async () => {
-     try {
-         const response = await fetch('/api/login', {
-              method: 'POST',
-             headers: {
+ const handleLogin = async (e) => {
+    e.preventDefault();
+    try {
+        const response = await fetch('http://localhost:8000/api/login', {  // Ensure this URL is correct
+            method: 'POST',
+            headers: {
                 'Content-Type': 'application/json',
-               },
-              body: JSON.stringify({ username, password }),
-          });
-
-         const data = await response.json();
+            },
+            body: JSON.stringify({
+                email: username,
+                password,
+            })
+        });
+        
+        if (response.ok) {
+            navigate('/dashboard');
+        } else {
+            const data = await response.json();
             setMessage(data.message);
-         if (response.ok) {
-               localStorage.setItem('isLoggedIn', 'true');
-              const from = location?.state?.from?.pathname || '/productslist';
-              navigate(from);
-            }
-       } catch (error) {
-            setMessage('Error logging in');
-       }
-  };
+        }
+    } catch(e) {
+        setMessage("Error in login");
+    }
+};
 
 return (
       <div className="auth">

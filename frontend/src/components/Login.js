@@ -1,52 +1,59 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom';
 
 function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const navigate = useNavigate();
+   const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+     const [message, setMessage] = useState('');
+     const navigate = useNavigate();
+     const location = useLocation();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Basic validation (in a real app, validate more robustly)
-    if (!email || !password) {
-      setError('Please fill in all fields.');
-      return;
-    }
+    const handleLogin = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await fetch('http://localhost:8000/api/login', {  // Ensure this URL is correct
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    email: username,
+                    password,
+                })
+            });
+            
+            if (response.ok) {
+                navigate('/dashboard');
+            } else {
+                const data = await response.json();
+                setMessage(data.message);
+            }
+        } catch(e) {
+            setMessage("Error in login");
+        }
+    };
 
-      // Simulate successful login
-      localStorage.setItem('isLoggedIn', 'true');
-     navigate('/about');
-      return;
-  };
-
-  return (
-    <div className="auth-container">
-      <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
-        {error && <p className="auth-error">{error}</p>}
-        <div className="auth-input">
-          <label>Email</label>
+   return (
+        <div className="login-container"> {/* Added container for styles */}
+            <div className='login-form-container'>
+            <h2>Login</h2>
+            <input
+                type="text"
+              placeholder="Username"
+              value={username}
+               onChange={(e) => setUsername(e.target.value)}
+             />
           <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
+               type="password"
+             placeholder="Password"
+                value={password}
+               onChange={(e) => setPassword(e.target.value)}
+              />
+            <button onClick={handleLogin}>Log In</button>
+           <p className="signup-text">Don't have an account? <a href="/signup">Sign Up</a></p>
+            <p>{message}</p>
+            </div>
         </div>
-        <div className="auth-input">
-          <label>Password</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
-        <button type="submit" className="auth-button">Log In</button>
-      </form>
-        <p className="signup-text">Don't have an account? <a href="/signup">Sign Up</a></p>
-    </div>
-  );
-}
-
-export default Login;
+    );
+  }
+  export default Login;
