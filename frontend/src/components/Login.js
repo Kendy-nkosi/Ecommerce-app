@@ -1,59 +1,83 @@
-import React, { useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import './Login.css'; // Assuming you have a CSS file for styling
 
 function Login() {
-   const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-     const [message, setMessage] = useState('');
-     const navigate = useNavigate();
-     const location = useLocation();
+    const [error, setError] = useState('');
+    const navigate = useNavigate();
 
-    const handleLogin = async (e) => {
+    // Check if user is already logged in
+    useEffect(() => {
+        const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+        if (isLoggedIn) {
+            navigate('/dashboard');
+        }
+    }, [navigate]);
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
+        setError('');
+
         try {
-            const response = await fetch('http://localhost:8000/api/login', {  // Ensure this URL is correct
+            const response = await fetch('http://localhost:8000/api/login', { // Ensure this URL is correct
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    email: username,
+                    email,
                     password,
                 })
             });
-            
+
+            const data = await response.json();
+
             if (response.ok) {
+                // Set auth state
+                localStorage.setItem('isLoggedIn', 'true');
+                localStorage.setItem('userEmail', email);
+                
+                // Trigger storage event for Header component
+                window.dispatchEvent(new Event('storage'));
+                
                 navigate('/dashboard');
             } else {
-                const data = await response.json();
-                setMessage(data.message);
+                setError(data.message || 'Login failed');
             }
-        } catch(e) {
-            setMessage("Error in login");
+        } catch (err) {
+            setError('Network error occurred');
         }
     };
 
-   return (
-        <div className="login-container"> {/* Added container for styles */}
-            <div className='login-form-container'>
+    return (
+        <div className="login-container">
             <h2>Login</h2>
-            <input
-                type="text"
-              placeholder="Username"
-              value={username}
-               onChange={(e) => setUsername(e.target.value)}
-             />
-          <input
-               type="password"
-             placeholder="Password"
-                value={password}
-               onChange={(e) => setPassword(e.target.value)}
-              />
-            <button onClick={handleLogin}>Log In</button>
-           <p className="signup-text">Don't have an account? <a href="/signup">Sign Up</a></p>
-            <p>{message}</p>
-            </div>
+            <form onSubmit={handleSubmit}>
+                <div className="form-group">
+                    <label>Email:</label>
+                    <input
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        required
+                    />
+                </div>
+                <div className="form-group">
+                    <label>Password:</label>
+                    <input
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
+                    />
+                </div>
+                {error && <p className="error">{error}</p>}
+                <button type="submit">Login</button>
+            </form>
         </div>
     );
-  }
-  export default Login;
+}
+
+export default Login;

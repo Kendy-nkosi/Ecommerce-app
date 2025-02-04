@@ -1,16 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
-import './index.css'
-import { BrowserRouter } from 'react-router-dom';
+import './index.css';
 import { CartProvider } from './context/CartContext';
+import { AuthProvider } from './context/AuthContext';
 
 console.log("Rendering BrowserRouter");
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-    <CartProvider>
-      <BrowserRouter>
-          <App />
-      </BrowserRouter>
-   </CartProvider>
-);
+    <AuthProvider>
+        <CartProvider>
+            <App />
+        </CartProvider>
+    </AuthProvider>
+);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
