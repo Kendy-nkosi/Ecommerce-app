@@ -1,58 +1,70 @@
 import React, { useContext } from 'react';
- import { CartContext } from '../context/CartContext';
+import { CartContext } from '../context/CartContext';
 import { FaShoppingCart } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import './cart.css';
 
-function CartPage() {  // Rename Component
+function CartPage() {
   const { cart, removeFromCart, updateQuantity, clearCart } = useContext(CartContext);
+  const navigate = useNavigate();
 
-    const handleCheckout = async () => {
-        try {
-             const response = await fetch('/api/checkout', {
-                method: 'POST',
-                   headers: {
-                     'Content-Type': 'application/json',
-                 },
-                   body: JSON.stringify({ cart }),
-              });
+  const handleCheckout = () => {
+    navigate('/checkout');
+  };
 
-              const data = await response.json();
-                 alert(data.message);
-               clearCart()
-          } catch (error) {
-               alert("Error processing checkout");
-            }
-      };
+  const getTotal = () => cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   return (
-       <div className="cart-page">
-              {cart.length === 0 ? (
-                   <div className="cart-empty">
-                       <FaShoppingCart className="cart-icon-empty"/>
-                         <p className="cart-empty-message">Your shopping cart is empty</p>
-                          <Link to='/productslist'> <button className='cart-continue-shopping'>Continue Shopping</button></Link>
-                </div>
-               ) : (
-                   <div>
-                     <h2>Shopping Cart</h2>
-                       <ul>
-                          {cart.map((item) => (
-                            <li key={item.id}>
-                                 {item.name} - ${item.price} - Quantity:
-                                     <input
-                                        type="number"
-                                         min="1"
-                                        value={item.quantity}
-                                        onChange={(e) => updateQuantity(item.id, parseInt(e.target.value))}
-                                     />
-                                    <button onClick={() => removeFromCart(item.id)}>Remove</button>
-                            </li>
-                          ))}
-                        </ul>
-                     <button onClick={handleCheckout}>Checkout</button>
-                   </div>
-              )}
-         </div>
-    );
+    <div className="cart-page">
+      {cart.length === 0 ? (
+        <div className="cart-empty">
+          <FaShoppingCart className="cart-icon-empty"/>
+          <p className="cart-empty-message">Your shopping cart is empty</p>
+          <Link to='/productslist'> <button className='cart-continue-shopping'>Continue Shopping</button></Link>
+        </div>
+      ) : (
+        <div className="cart-container">
+          <h2>Shopping Cart</h2>
+          <table className="cart-table">
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Subtotal</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {cart.map((item) => (
+                <tr key={item.id}>
+                  <td>{item.name}</td>
+                  <td>R{item.price.toFixed(2)}</td>
+                  <td>
+                    <input
+                      type="number"
+                      min="1"
+                      value={item.quantity}
+                      onChange={(e) => updateQuantity(item.id, parseInt(e.target.value))}
+                      className="cart-qty-input"
+                    />
+                  </td>
+                  <td>R{(item.price * item.quantity).toFixed(2)}</td>
+                  <td>
+                    <button className="cart-remove-btn" onClick={() => removeFromCart(item.id)}>Remove</button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <div className="cart-total-row">
+            <span className="cart-total-label">Total:</span>
+            <span className="cart-total-value">R{getTotal().toFixed(2)}</span>
+          </div>
+          <button className="cart-checkout-btn" onClick={handleCheckout}>Checkout</button>
+        </div>
+      )}
+    </div>
+  );
 }
 export default CartPage;

@@ -1,10 +1,38 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import pens from '../images/pens.webp';  // Make sure these paths are correct
+import { CartContext } from '../context/CartContext';
+import pens from '../images/pens.webp';
 import imagett from '../images/imagett.png';
-import notebook from '../images/notebook.avif'
+import notebook from '../images/notebook.avif';
 
 function Home() {
+  const { addToCart } = useContext(CartContext);
+
+  // Mock product objects for featured products
+  const featuredProducts = [
+    {
+      id: 101,
+      name: 'Finest Writing Pen',
+      description: 'Crafted with precision and elegance.',
+      price: 25.00,
+      image: pens,
+    },
+    {
+      id: 102,
+      name: 'Luxury Note Cards',
+      description: 'High-quality paper for the perfect note.',
+      price: 15.00,
+      image: imagett,
+    },
+    {
+      id: 103,
+      name: 'Notebook',
+      description: 'For the passionate Writers.',
+      price: 20.00,
+      image: notebook,
+    },
+  ];
+
   return (
     <div className="home-container">
       <header>
@@ -19,7 +47,7 @@ function Home() {
           <h1>Welcome to Lady Kay's Stationery</h1>
           <p>Explore our exquisite collection of writing instruments, beautiful papers, and delightful desk accessories.</p>
           <div className="hero-buttons">
-            <Link to="/products" className="hero-button shop-now">Shop Now</Link>
+            <Link to="/productslist" className="hero-button shop-now">Shop Now</Link>
             <Link to="/about" className="hero-button learn-more">Learn More</Link>
           </div>
         </section>
@@ -27,24 +55,15 @@ function Home() {
         <section className="featured-products">
           <h2>Featured Products</h2>
           <div className="product-grid">
-            <div className="product-card">
-              <img src={pens} alt="Beautiful Pen" className="product-image" />
-              <h3>Finest Writing Pen</h3>
-              <p>Crafted with precision and elegance.</p>
-              <button className="add-to-cart">Add to Cart</button>
-            </div>
-            <div className="product-card">
-               <img src={imagett} alt="Elegant Paper" className="product-image" />
-              <h3>Luxury Note Cards</h3>
-              <p>High-quality paper for the perfect note.</p>
-              <button className="add-to-cart">Add to Cart</button>
-            </div>
-            <div className="product-card">
-            <img src={notebook} alt="Beautiful Pen" className="product-image" />
-              <h3>Notebook</h3>
-              <p>For the passionate Writers.</p>
-                <button className="add-to-cart">Add to Cart</button>
-            </div>
+            {featuredProducts.map(product => (
+              <div className="product-card" key={product.id}>
+                <img src={product.image} alt={product.name} className="product-image" />
+                <h3>{product.name}</h3>
+                <p>{product.description}</p>
+                <p>Price: R{product.price}</p>
+                <button className="add-to-cart" onClick={() => addToCart(product)}>Add to Cart</button>
+              </div>
+            ))}
           </div>
         </section>
 

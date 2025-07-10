@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './Checkout.css';
 
 function Checkout() {
@@ -7,24 +8,24 @@ function Checkout() {
     const [city, setCity] = useState('');
     const [postalCode, setPostalCode] = useState('');
     const [country, setCountry] = useState('');
-    const [paymentMethod, setPaymentMethod] = useState('creditCard');
+    const navigate = useNavigate();
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Handle checkout logic here
-        console.log({
+        // Save shipping details to localStorage or context (for demo, use localStorage)
+        localStorage.setItem('shippingDetails', JSON.stringify({
             name,
             address,
             city,
             postalCode,
             country,
-            paymentMethod,
-        });
+        }));
+        navigate('/payment-method');
     };
 
     return (
         <div className="checkout-container">
-            <h2>Checkout</h2>
+            <h2>Shipping Details</h2>
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
                     <label>Name:</label>
@@ -71,19 +72,7 @@ function Checkout() {
                         required
                     />
                 </div>
-                <div className="form-group">
-                    <label>Payment Method:</label>
-                    <select
-                        value={paymentMethod}
-                        onChange={(e) => setPaymentMethod(e.target.value)}
-                        required
-                    >
-                        <option value="creditCard">Credit Card</option>
-                        <option value="paypal">PayPal</option>
-                        <option value="bankTransfer">Bank Transfer</option>
-                    </select>
-                </div>
-                <button type="submit">Place Order</button>
+                <button type="submit">Continue to Payment</button>
             </form>
         </div>
     );
